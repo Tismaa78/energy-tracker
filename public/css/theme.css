@@ -36,7 +36,8 @@ body {
 .et-nav {
   background: var(--et-bg-card) !important;
   box-shadow: var(--et-shadow);
-  padding: 0.75rem 0;
+  padding: 0.5rem 0;
+  min-height: auto;
 }
 
 .et-nav .navbar-brand {
@@ -44,6 +45,23 @@ body {
   font-size: 1.25rem;
   color: var(--et-primary) !important;
   letter-spacing: -0.02em;
+  padding: 0;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+}
+/* Logo taille lisible dans la barre (x3) */
+.et-nav .navbar-brand .et-navbar-logo,
+.et-nav .et-navbar-logo,
+nav .navbar-brand img.et-navbar-logo {
+  height: 108px !important;
+  max-height: 108px !important;
+  width: auto !important;
+  max-width: 390px !important;
+  display: block !important;
+  object-fit: contain !important;
+  object-position: left center;
+  vertical-align: middle;
 }
 
 .et-nav .nav-link {

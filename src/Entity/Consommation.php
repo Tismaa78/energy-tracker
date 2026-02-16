@@ -64,7 +64,7 @@ class Consommation
     /**
      * @var Collection<int, Alerte>
      */
-    #[ORM\OneToMany(targetEntity: Alerte::class, mappedBy: 'consommation')]
+    #[ORM\OneToMany(targetEntity: Alerte::class, mappedBy: 'consommation', cascade: ['remove'])]
     private Collection $alertes;
 
     public function __construct()
