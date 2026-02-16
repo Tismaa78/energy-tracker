@@ -7,7 +7,6 @@ use App\Entity\Logement;
 use App\Entity\TypeEnergie;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -55,14 +54,7 @@ class ConsommationType extends AbstractType
                 'html5' => true,
                 'input' => 'number',
                 'attr' => ['step' => '0.01', 'min' => 0],
-                'constraints' => [new PositiveOrZero()],
-            ])
-            ->add('sourceSaisie', ChoiceType::class, [
-                'label' => 'Source',
-                'choices' => [
-                    'Manuel' => Consommation::SOURCE_MANUEL,
-                    'Import' => Consommation::SOURCE_IMPORT,
-                ],
+                'constraints' => [new PositiveOrZero(message: 'La valeur ne peut pas être négative.')],
             ]);
 
         $builder->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) {

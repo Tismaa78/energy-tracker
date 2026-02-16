@@ -36,4 +36,27 @@ class ObjectifRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
+
+    /**
+     * @return array{items: Objectif[], total: int}
+     */
+    public function findByUserPaginated(User $user, int $page = 1, int $limit = 15, string $sortBy = 'dateDebut', string $sortOrder = 'DESC'): array
+    {
+        $qb = $this->createQueryBuilder('o')
+            ->andWhere('o.user = :user')
+            ->setParameter('user', $user);
+
+        $allowedSort = ['dateDebut', 'dateFin', 'valeurCible'];
+        $sortBy = \in_array($sortBy, $allowedSort, true) ? $sortBy : 'dateDebut';
+        $sortOrder = strtoupper($sortOrder) === 'ASC' ? 'ASC' : 'DESC';
+
+        $total = (int) (clone $qb)->select('COUNT(o.id)')->getQuery()->getSingleScalarResult();
+        $items = $qb->orderBy('o.' . $sortBy, $sortOrder)
+            ->setFirstResult(($page - 1) * $limit)
+            ->setMaxResults($limit)
+            ->getQuery()
+            ->getResult();
+
+        return ['items' => $items, 'total' => $total];
+    }
 }

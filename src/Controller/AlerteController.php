@@ -18,10 +18,19 @@ class AlerteController extends AbstractController
     {
         $user = $this->getUser();
         $unreadOnly = $request->query->getBoolean('non_lues');
-        $alertes = $repository->findByUser($user, $unreadOnly);
+        $page = max(1, $request->query->getInt('page', 1));
+        $sortBy = $request->query->get('sort', 'dateAlerte');
+        $sortOrder = $request->query->get('order', 'DESC');
+        $perPage = 15;
+        $result = $repository->findByUserPaginated($user, $unreadOnly, $page, $perPage, $sortBy, $sortOrder);
 
         return $this->render('alerte/index.html.twig', [
-            'alertes' => $alertes,
+            'alertes' => $result['items'],
+            'total_alertes' => $result['total'],
+            'page' => $page,
+            'per_page' => $perPage,
+            'sort_by' => $sortBy,
+            'sort_order' => $sortOrder,
             'unread_only' => $unreadOnly,
         ]);
     }

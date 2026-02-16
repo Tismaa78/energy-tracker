@@ -6,6 +6,7 @@ use App\Repository\ObjectifRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints\Choice;
+use Symfony\Component\Validator\Constraints\GreaterThanOrEqual;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\PositiveOrZero;
 
@@ -21,8 +22,8 @@ class Objectif
     private ?int $id = null;
 
     #[ORM\Column]
-    #[NotBlank]
-    #[PositiveOrZero]
+    #[NotBlank(message: 'La valeur cible est obligatoire.')]
+    #[PositiveOrZero(message: 'La valeur cible ne peut pas être négative.')]
     private ?float $valeurCible = null;
 
     #[ORM\Column(length: 10)]
@@ -34,6 +35,7 @@ class Objectif
     private ?\DateTimeInterface $dateDebut = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
+    #[GreaterThanOrEqual(propertyPath: 'dateDebut', message: 'La date de fin doit être postérieure ou égale à la date de début.')]
     private ?\DateTimeInterface $dateFin = null;
 
     #[ORM\Column]

@@ -1,0 +1,34 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Import CSV consommations{% endblock %}
+
+{% block body %}
+<h1 class="et-page-title mb-4">Import CSV de consommations</h1>
+
+<div class="et-card et-card-body" style="max-width: 640px;">
+    <p class="mb-3">
+        Importez un fichier CSV au format suivant (séparateur <strong>;</strong>) :
+    </p>
+    <pre class="et-code-block mb-3">logement;type_energie;periode_debut;periode_fin;valeur
+Appartement 1;Electricité;2026-02-01;2026-02-29;120.5
+Maison;Eau;2026-02-10;2026-02-10;5.2</pre>
+    <ul class="mb-3 small">
+        <li><strong>logement</strong> : adresse exactement comme dans vos logements.</li>
+        <li><strong>type_energie</strong> : libellé exactement comme dans vos types d'énergie.</li>
+        <li><strong>dates</strong> : au format <code>AAAA-MM-JJ</code>.</li>
+        <li><strong>valeur</strong> : nombre positif (point ou virgule comme séparateur décimal).</li>
+    </ul>
+
+    <form method="post" enctype="multipart/form-data" class="d-flex flex-column gap-3">
+        <div>
+            <label class="form-label">Fichier CSV</label>
+            <input type="file" name="csv_file" accept=".csv,text/csv" class="form-control" required>
+        </div>
+        <div class="et-form-actions mt-2">
+            <button type="submit" class="et-btn et-btn-primary">Importer</button>
+            <a href="{{ path('app_consommation_index') }}" class="et-btn et-btn-secondary">Retour à la liste</a>
+        </div>
+    </form>
+</div>
+{% endblock %}
+

@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints\Choice;
+use Symfony\Component\Validator\Constraints\GreaterThanOrEqual;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\PositiveOrZero;
 
@@ -27,11 +28,12 @@ class Consommation
     private ?\DateTimeInterface $periodeDebut = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
+    #[GreaterThanOrEqual(propertyPath: 'periodeDebut', message: 'La date de fin doit être postérieure ou égale à la date de début.')]
     private ?\DateTimeInterface $periodeFin = null;
 
     #[ORM\Column]
-    #[NotBlank]
-    #[PositiveOrZero]
+    #[NotBlank(message: 'La valeur est obligatoire.')]
+    #[PositiveOrZero(message: 'La valeur ne peut pas être négative.')]
     private ?float $valeur = null;
 
     /**

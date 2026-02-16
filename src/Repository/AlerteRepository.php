@@ -34,4 +34,32 @@ class AlerteRepository extends ServiceEntityRepository
 
         return $qb->getQuery()->getResult();
     }
+
+    /**
+     * @return array{items: Alerte[], total: int}
+     */
+    public function findByUserPaginated(User $user, bool $unreadOnly, int $page = 1, int $limit = 15, string $sortBy = 'dateAlerte', string $sortOrder = 'DESC'): array
+    {
+        $qb = $this->createQueryBuilder('a')
+            ->join('a.consommation', 'c')
+            ->andWhere('c.user = :user')
+            ->setParameter('user', $user);
+
+        if ($unreadOnly) {
+            $qb->andWhere('a.estLue = false');
+        }
+
+        $allowedSort = ['dateAlerte', 'estLue', 'typeAlerte'];
+        $sortBy = \in_array($sortBy, $allowedSort, true) ? $sortBy : 'dateAlerte';
+        $sortOrder = strtoupper($sortOrder) === 'ASC' ? 'ASC' : 'DESC';
+
+        $total = (int) (clone $qb)->select('COUNT(a.id)')->getQuery()->getSingleScalarResult();
+        $items = $qb->orderBy('a.' . $sortBy, $sortOrder)
+            ->setFirstResult(($page - 1) * $limit)
+            ->setMaxResults($limit)
+            ->getQuery()
+            ->getResult();
+
+        return ['items' => $items, 'total' => $total];
+    }
 }

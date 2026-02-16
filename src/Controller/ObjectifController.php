@@ -16,12 +16,16 @@ use Symfony\Component\Routing\Attribute\Route;
 class ObjectifController extends AbstractController
 {
     #[Route('/', name: 'app_objectif_index', methods: ['GET'])]
-    public function index(ObjectifRepository $repository, ConsommationRepository $consommationRepository): Response
+    public function index(Request $request, ObjectifRepository $repository, ConsommationRepository $consommationRepository): Response
     {
         $user = $this->getUser();
-        $objectifsRaw = $repository->findBy(['user' => $user], ['dateDebut' => 'DESC']);
+        $page = max(1, $request->query->getInt('page', 1));
+        $sortBy = $request->query->get('sort', 'dateDebut');
+        $sortOrder = $request->query->get('order', 'DESC');
+        $perPage = 15;
+        $result = $repository->findByUserPaginated($user, $page, $perPage, $sortBy, $sortOrder);
         $objectifs = [];
-        foreach ($objectifsRaw as $obj) {
+        foreach ($result['items'] as $obj) {
             $consommationTotale = $consommationRepository->sommeValeurForObjectif($obj);
             $objectifs[] = [
                 'objectif' => $obj,
@@ -32,6 +36,11 @@ class ObjectifController extends AbstractController
 
         return $this->render('objectif/index.html.twig', [
             'objectifs' => $objectifs,
+            'total_objectifs' => $result['total'],
+            'page' => $page,
+            'per_page' => $perPage,
+            'sort_by' => $sortBy,
+            'sort_order' => $sortOrder,
         ]);
     }
 

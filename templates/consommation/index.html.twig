@@ -5,7 +5,10 @@
 {% block body %}
 <div class="et-page-header">
     <h1 class="et-page-title">Mes consommations</h1>
-    <a href="{{ path('app_consommation_new') }}" class="et-btn et-btn-primary">Nouvelle saisie</a>
+    <div class="d-flex gap-2 flex-wrap">
+        <a href="{{ path('app_consommation_new') }}" class="et-btn et-btn-primary">Nouvelle saisie</a>
+        <a href="{{ path('app_consommation_import') }}" class="et-btn et-btn-outline">Import CSV</a>
+    </div>
 </div>
 
 <div class="et-filters">
@@ -36,21 +39,46 @@
             <label>Période fin</label>
             <input type="date" name="periode_fin" class="et-form-control" style="min-width: 140px;" value="{{ filters.periode_fin ? filters.periode_fin|date('Y-m-d') : '' }}">
         </div>
+        <div class="et-form-group mb-0">
+            <label>Valeur min</label>
+            <input type="number" name="valeur_min" class="et-form-control" style="min-width: 90px;" step="0.01" min="0" placeholder="0" value="{{ filters.valeur_min ?? '' }}">
+        </div>
+        <div class="et-form-group mb-0">
+            <label>Valeur max</label>
+            <input type="number" name="valeur_max" class="et-form-control" style="min-width: 90px;" step="0.01" min="0" placeholder="—" value="{{ filters.valeur_max ?? '' }}">
+        </div>
         <button type="submit" class="et-btn et-btn-outline et-btn-sm">Filtrer</button>
         <a href="{{ path('app_consommation_index') }}" class="et-btn et-btn-secondary et-btn-sm">Réinitialiser</a>
+        {% set export_params = {
+            type_energie: filters.type_energie_id ?: '',
+            logement: filters.logement_id ?: '',
+            periode_debut: filters.periode_debut ? filters.periode_debut|date('Y-m-d') : '',
+            periode_fin: filters.periode_fin ? filters.periode_fin|date('Y-m-d') : '',
+            valeur_min: filters.valeur_min ?? '',
+            valeur_max: filters.valeur_max ?? '',
+        } %}
+        <a href="{{ path('app_consommation_export', export_params|merge({format: 'csv'})) }}" class="et-btn et-btn-outline et-btn-sm">Export CSV</a>
+        <a href="{{ path('app_consommation_export', export_params|merge({format: 'pdf'})) }}" class="et-btn et-btn-outline et-btn-sm" target="_blank">Export PDF</a>
     </form>
 </div>
 
+{% set query_params = {
+    type_energie: filters.type_energie_id ?: '',
+    logement: filters.logement_id ?: '',
+    periode_debut: filters.periode_debut ? filters.periode_debut|date('Y-m-d') : '',
+    periode_fin: filters.periode_fin ? filters.periode_fin|date('Y-m-d') : '',
+    valeur_min: filters.valeur_min ?? '',
+    valeur_max: filters.valeur_max ?? '',
+} %}
 <div class="et-table-wrap">
     <table class="et-table">
         <thead>
             <tr>
-                <th>Période</th>
+                <th><a href="{{ path('app_consommation_index', query_params|merge({sort: 'periodeDebut', order: sort_by == 'periodeDebut' and sort_order == 'ASC' ? 'DESC' : 'ASC'})) }}" class="et-link">Période</a></th>
                 <th>Logement</th>
                 <th>Type</th>
-                <th>Valeur</th>
+                <th><a href="{{ path('app_consommation_index', query_params|merge({sort: 'valeur', order: sort_by == 'valeur' and sort_order == 'ASC' ? 'DESC' : 'ASC'})) }}" class="et-link">Valeur</a></th>
                 <th>Coût estimé</th>
-                <th>Source</th>
                 <th style="width: 160px;">Actions</th>
             </tr>
         </thead>
@@ -62,7 +90,6 @@
                     <td>{{ c.typeEnergie ? c.typeEnergie.libelle : '—' }}</td>
                     <td>{{ c.valeur|number_format(2, ',', ' ') }} {{ c.typeEnergie ? c.typeEnergie.unite : '' }}</td>
                     <td>{{ c.coutEstime is not null ? c.coutEstime|number_format(2, ',', ' ') ~ ' €' : '—' }}</td>
-                    <td class="et-text-muted">{{ c.sourceSaisie }}</td>
                     <td>
                         <div class="et-actions">
                             <a href="{{ path('app_consommation_edit', { id: c.id }) }}" class="et-btn et-btn-outline et-btn-sm">Modifier</a>
@@ -74,9 +101,23 @@
                     </td>
                 </tr>
             {% else %}
-                <tr><td colspan="7" class="et-list-empty">Aucune consommation.</td></tr>
+                <tr><td colspan="6" class="et-list-empty">Aucune consommation.</td></tr>
             {% endfor %}
         </tbody>
     </table>
 </div>
+{% set total_pages = (total_consommations / per_page)|round(0, 'ceil') %}
+{% if total_pages > 1 %}
+<nav class="mt-3 d-flex justify-content-between align-items-center flex-wrap gap-2">
+    <p class="et-text-muted small mb-0">{{ total_consommations }} résultat(s) — page {{ page }}/{{ total_pages }}</p>
+    <div class="d-flex gap-1">
+        {% if page > 1 %}
+            <a href="{{ path('app_consommation_index', query_params|merge({page: page - 1, sort: sort_by, order: sort_order})) }}" class="et-btn et-btn-secondary et-btn-sm">Précédent</a>
+        {% endif %}
+        {% if page < total_pages %}
+            <a href="{{ path('app_consommation_index', query_params|merge({page: page + 1, sort: sort_by, order: sort_order})) }}" class="et-btn et-btn-secondary et-btn-sm">Suivant</a>
+        {% endif %}
+    </div>
+</nav>
+{% endif %}
 {% endblock %}

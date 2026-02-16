@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Export consommations</title>
+    <style>
+        body { font-family: sans-serif; margin: 1rem; }
+        h1 { font-size: 1.25rem; }
+        table { border-collapse: collapse; width: 100%; margin-top: 1rem; }
+        th, td { border: 1px solid #333; padding: 0.35rem 0.5rem; text-align: left; font-size: 0.9rem; }
+        th { background: #eee; }
+        .text-right { text-align: right; }
+        .footer { margin-top: 1.5rem; font-size: 0.85rem; color: #666; }
+    </style>
+</head>
+<body>
+    <h1>Export des consommations — {{ consommations|length }} ligne(s)</h1>
+    <p>Généré le {{ "now"|date("d/m/Y H:i") }}</p>
+    <table>
+        <thead>
+            <tr>
+                <th>Période début</th>
+                <th>Période fin</th>
+                <th>Logement</th>
+                <th>Type</th>
+                <th class="text-right">Valeur</th>
+                <th class="text-right">Coût (€)</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for c in consommations %}
+            <tr>
+                <td>{{ c.periodeDebut ? c.periodeDebut|date('d/m/Y') : '—' }}</td>
+                <td>{{ c.periodeFin ? c.periodeFin|date('d/m/Y') : '—' }}</td>
+                <td>{{ c.logement ? c.logement.adresse : '—' }}</td>
+                <td>{{ c.typeEnergie ? c.typeEnergie.libelle : '—' }}</td>
+                <td class="text-right">{{ c.valeur|number_format(2, ',', ' ') }} {{ c.typeEnergie ? c.typeEnergie.unite : '' }}</td>
+                <td class="text-right">{{ c.coutEstime is not null ? c.coutEstime|number_format(2, ',', ' ') : '—' }}</td>
+            </tr>
+            {% else %}
+            <tr><td colspan="6">Aucune donnée.</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <div class="footer">Pour enregistrer en PDF : Fichier → Imprimer → Enregistrer au format PDF.</div>
+</body>
+</html>

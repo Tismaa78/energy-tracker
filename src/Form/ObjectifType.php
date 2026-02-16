@@ -34,7 +34,7 @@ class ObjectifType extends AbstractType
                 'html5' => true,
                 'input' => 'number',
                 'attr' => ['step' => '0.01', 'min' => 0],
-                'constraints' => [new PositiveOrZero()],
+                'constraints' => [new PositiveOrZero(message: 'La valeur cible ne peut pas être négative.')],
             ])
             ->add('periode', ChoiceType::class, [
                 'label' => 'Période',
