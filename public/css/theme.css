@@ -1,0 +1,650 @@
+/* Energy Tracker — Thème suivi de consommation
+   Approche claire, pédagogique et accessible */
+
+:root {
+  --et-primary: #0d7377;
+  --et-primary-dark: #095456;
+  --et-primary-light: #14a3a8;
+  --et-accent: #32e0c4;
+  --et-bg: #f6f8f7;
+  --et-bg-card: #ffffff;
+  --et-text: #1a2b2c;
+  --et-text-muted: #5c6c6d;
+  --et-border: #e2e8e8;
+  --et-success: #2d8a6e;
+  --et-warning: #c9a227;
+  --et-danger: #c75050;
+  --et-radius: 12px;
+  --et-radius-sm: 8px;
+  --et-shadow: 0 2px 12px rgba(13, 115, 119, 0.06);
+  --et-shadow-hover: 0 8px 24px rgba(13, 115, 119, 0.12);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "DM Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  background-color: var(--et-bg);
+  color: var(--et-text);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ----- Navbar ----- */
+.et-nav {
+  background: var(--et-bg-card) !important;
+  box-shadow: var(--et-shadow);
+  padding: 0.75rem 0;
+}
+
+.et-nav .navbar-brand {
+  font-weight: 700;
+  font-size: 1.25rem;
+  color: var(--et-primary) !important;
+  letter-spacing: -0.02em;
+}
+
+.et-nav .nav-link {
+  color: var(--et-text) !important;
+  font-weight: 500;
+  padding: 0.5rem 0.75rem !important;
+  border-radius: var(--et-radius-sm);
+  transition: background 0.2s, color 0.2s;
+}
+
+.et-nav .nav-link:hover {
+  background: var(--et-bg);
+  color: var(--et-primary) !important;
+}
+
+.et-nav .navbar-text {
+  color: var(--et-text-muted) !important;
+  font-size: 0.9rem;
+}
+
+.et-nav .navbar-toggler {
+  border-color: var(--et-border);
+  padding: 0.4rem 0.6rem;
+}
+
+.et-nav .navbar-toggler-icon {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='%231a2b2c' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+}
+
+/* ----- Main ----- */
+.et-main {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 1rem 3rem;
+}
+
+.et-page-title {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--et-text);
+  margin-bottom: 1.5rem;
+  letter-spacing: -0.02em;
+}
+
+/* ----- Cards ----- */
+.et-card {
+  background: var(--et-bg-card);
+  border-radius: var(--et-radius);
+  box-shadow: var(--et-shadow);
+  border: 1px solid var(--et-border);
+  overflow: hidden;
+  transition: box-shadow 0.2s;
+}
+
+.et-card:hover {
+  box-shadow: var(--et-shadow-hover);
+}
+
+.et-card-header {
+  font-weight: 600;
+  color: var(--et-text);
+  padding: 1rem 1.25rem;
+  border-bottom: 1px solid var(--et-border);
+  font-size: 0.95rem;
+}
+
+.et-card-body {
+  padding: 1.25rem;
+}
+
+/* ----- Buttons ----- */
+.et-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  font-weight: 600;
+  font-size: 0.9rem;
+  padding: 0.6rem 1.25rem;
+  border-radius: var(--et-radius-sm);
+  border: none;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.05s;
+}
+
+.et-btn:active {
+  transform: scale(0.98);
+}
+
+.et-btn-primary {
+  background: var(--et-primary);
+  color: #fff !important;
+}
+
+.et-btn-primary:hover {
+  background: var(--et-primary-dark);
+  color: #fff !important;
+}
+
+.et-btn-secondary {
+  background: var(--et-bg);
+  color: var(--et-text);
+  border: 1px solid var(--et-border);
+}
+
+.et-btn-secondary:hover {
+  background: var(--et-border);
+  color: var(--et-text);
+}
+
+.et-btn-outline {
+  background: transparent;
+  color: var(--et-primary);
+  border: 1.5px solid var(--et-primary);
+}
+
+.et-btn-outline:hover {
+  background: rgba(13, 115, 119, 0.08);
+  color: var(--et-primary);
+}
+
+.et-btn-danger {
+  background: var(--et-danger);
+  color: #fff !important;
+}
+
+.et-btn-danger:hover {
+  background: #b04040;
+  color: #fff !important;
+}
+
+.et-btn-sm {
+  padding: 0.4rem 0.85rem;
+  font-size: 0.85rem;
+}
+
+/* ----- Forms ----- */
+.et-form-group {
+  margin-bottom: 1.25rem;
+}
+
+.et-form-label {
+  display: block;
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: var(--et-text);
+  margin-bottom: 0.4rem;
+}
+
+.et-form-control {
+  width: 100%;
+  font-size: 1rem;
+  padding: 0.7rem 1rem;
+  border: 1px solid var(--et-border);
+  border-radius: var(--et-radius-sm);
+  background: var(--et-bg-card);
+  color: var(--et-text);
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.et-form-control:focus {
+  outline: none;
+  border-color: var(--et-primary);
+  box-shadow: 0 0 0 3px rgba(13, 115, 119, 0.15);
+}
+
+.et-form-control::placeholder {
+  color: var(--et-text-muted);
+  opacity: 0.8;
+}
+
+.et-form-hint {
+  font-size: 0.85rem;
+  color: var(--et-text-muted);
+  margin-top: 0.35rem;
+}
+
+.et-form-error {
+  font-size: 0.85rem;
+  color: var(--et-danger);
+  margin-top: 0.35rem;
+}
+
+/* Checkbox / radio dans formulaires */
+.et-form-check {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.6rem;
+  margin-bottom: 1rem;
+}
+
+.et-form-check input {
+  width: 1.2rem;
+  height: 1.2rem;
+  margin-top: 0.15rem;
+  accent-color: var(--et-primary);
+}
+
+.et-form-check label {
+  font-size: 0.95rem;
+  color: var(--et-text);
+  cursor: pointer;
+}
+
+/* Ciblage global des champs Symfony dans .et-main */
+.et-main .form-control,
+.et-main input[type="text"],
+.et-main input[type="email"],
+.et-main input[type="password"],
+.et-main input[type="number"],
+.et-main input[type="date"],
+.et-main select,
+.et-main textarea {
+  width: 100%;
+  font-size: 1rem;
+  padding: 0.7rem 1rem;
+  border: 1px solid var(--et-border);
+  border-radius: var(--et-radius-sm);
+  background: var(--et-bg-card);
+  color: var(--et-text);
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.et-main .form-control:focus,
+.et-main input:focus,
+.et-main select:focus,
+.et-main textarea:focus {
+  outline: none;
+  border-color: var(--et-primary);
+  box-shadow: 0 0 0 3px rgba(13, 115, 119, 0.15);
+}
+
+.et-main .mb-3 label {
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: var(--et-text);
+  margin-bottom: 0.4rem;
+}
+
+.et-main .form-select {
+  cursor: pointer;
+}
+
+.et-card form > div,
+.et-form-card form > div {
+  margin-bottom: 1.25rem;
+}
+
+.et-card form > div:last-of-type,
+.et-form-card form > div:last-of-type {
+  margin-bottom: 0;
+}
+
+/* Formulaire bloc (login, register, create) */
+.et-form-card {
+  background: var(--et-bg-card);
+  border-radius: var(--et-radius);
+  box-shadow: var(--et-shadow);
+  border: 1px solid var(--et-border);
+  padding: 2rem;
+  max-width: 480px;
+  margin: 0 auto;
+}
+
+.et-form-card .et-page-title {
+  margin-bottom: 1.5rem;
+}
+
+.et-form-actions {
+  margin-top: 1.5rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+/* ----- Tables ----- */
+.et-table-wrap {
+  background: var(--et-bg-card);
+  border-radius: var(--et-radius);
+  box-shadow: var(--et-shadow);
+  border: 1px solid var(--et-border);
+  overflow: hidden;
+}
+
+.et-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.et-table th {
+  text-align: left;
+  font-weight: 600;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--et-text-muted);
+  padding: 1rem 1.25rem;
+  background: var(--et-bg);
+  border-bottom: 1px solid var(--et-border);
+}
+
+.et-table td {
+  padding: 1rem 1.25rem;
+  border-bottom: 1px solid var(--et-border);
+  font-size: 0.95rem;
+}
+
+.et-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.et-table tbody tr:hover {
+  background: rgba(13, 115, 119, 0.03);
+}
+
+.et-table .et-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+/* ----- Badges ----- */
+.et-badge {
+  display: inline-block;
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 0.25rem 0.6rem;
+  border-radius: 999px;
+}
+
+.et-badge-success {
+  background: rgba(45, 138, 110, 0.15);
+  color: var(--et-success);
+}
+
+.et-badge-warning {
+  background: rgba(201, 162, 39, 0.2);
+  color: #8a6914;
+}
+
+.et-badge-neutral {
+  background: var(--et-bg);
+  color: var(--et-text-muted);
+}
+
+/* ----- Alerts / Flash ----- */
+.et-alert {
+  padding: 1rem 1.25rem;
+  border-radius: var(--et-radius-sm);
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.et-alert-success {
+  background: rgba(45, 138, 110, 0.12);
+  color: var(--et-success);
+  border: 1px solid rgba(45, 138, 110, 0.3);
+}
+
+.et-alert-danger {
+  background: rgba(199, 80, 80, 0.1);
+  color: var(--et-danger);
+  border: 1px solid rgba(199, 80, 80, 0.25);
+}
+
+.et-alert-warning {
+  background: rgba(201, 162, 39, 0.12);
+  color: #8a6914;
+  border: 1px solid rgba(201, 162, 39, 0.3);
+}
+
+.et-alert .et-alert-close {
+  background: none;
+  border: none;
+  padding: 0.25rem;
+  cursor: pointer;
+  opacity: 0.7;
+  font-size: 1.2rem;
+  line-height: 1;
+}
+
+.et-alert .et-alert-close:hover {
+  opacity: 1;
+}
+
+/* ----- Dashboard ----- */
+.et-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.25rem;
+  margin-bottom: 2rem;
+}
+
+.et-stat-card {
+  background: var(--et-bg-card);
+  border-radius: var(--et-radius);
+  box-shadow: var(--et-shadow);
+  border: 1px solid var(--et-border);
+  padding: 1.25rem;
+  transition: box-shadow 0.2s;
+}
+
+.et-stat-card:hover {
+  box-shadow: var(--et-shadow-hover);
+}
+
+.et-stat-label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--et-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  margin-bottom: 0.35rem;
+}
+
+.et-stat-value {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--et-primary);
+  letter-spacing: -0.02em;
+}
+
+.et-stat-value small {
+  font-size: 0.7em;
+  font-weight: 500;
+  color: var(--et-text-muted);
+}
+
+/* Listes type dashboard */
+.et-list-group {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.et-list-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.9rem 1.25rem;
+  border-bottom: 1px solid var(--et-border);
+  font-size: 0.95rem;
+}
+
+.et-list-item:last-child {
+  border-bottom: none;
+}
+
+.et-list-item:hover {
+  background: rgba(13, 115, 119, 0.03);
+}
+
+.et-list-empty {
+  padding: 2rem;
+  text-align: center;
+  color: var(--et-text-muted);
+  font-size: 0.95rem;
+}
+
+/* ----- Alertes (page) ----- */
+.et-alerte-item {
+  background: var(--et-bg-card);
+  border-radius: var(--et-radius-sm);
+  border: 1px solid var(--et-border);
+  padding: 1.25rem;
+  margin-bottom: 0.75rem;
+  transition: box-shadow 0.2s;
+}
+
+.et-alerte-item:hover {
+  box-shadow: var(--et-shadow);
+}
+
+.et-alerte-item.unread {
+  border-left: 4px solid var(--et-warning);
+  background: rgba(201, 162, 39, 0.04);
+}
+
+.et-alerte-title {
+  font-weight: 600;
+  font-size: 0.95rem;
+  margin-bottom: 0.35rem;
+}
+
+.et-alerte-meta {
+  font-size: 0.85rem;
+  color: var(--et-text-muted);
+}
+
+/* ----- Filter bar ----- */
+.et-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  align-items: flex-end;
+  padding: 1.25rem;
+  background: var(--et-bg-card);
+  border-radius: var(--et-radius);
+  border: 1px solid var(--et-border);
+  margin-bottom: 1.5rem;
+}
+
+.et-filters .et-form-group {
+  margin-bottom: 0;
+}
+
+.et-filters label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--et-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  margin-bottom: 0.3rem;
+}
+
+.et-filters select,
+.et-filters input {
+  min-width: 140px;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.9rem;
+  border: 1px solid var(--et-border);
+  border-radius: var(--et-radius-sm);
+  background: var(--et-bg-card);
+}
+
+/* ----- Logement cards ----- */
+.et-logement-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.25rem;
+}
+
+.et-logement-card {
+  background: var(--et-bg-card);
+  border-radius: var(--et-radius);
+  box-shadow: var(--et-shadow);
+  border: 1px solid var(--et-border);
+  padding: 1.25rem;
+  transition: box-shadow 0.2s;
+}
+
+.et-logement-card:hover {
+  box-shadow: var(--et-shadow-hover);
+}
+
+.et-logement-card h3 {
+  font-size: 1.05rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: var(--et-text);
+}
+
+.et-logement-card .et-meta {
+  font-size: 0.9rem;
+  color: var(--et-text-muted);
+  margin-bottom: 1rem;
+}
+
+/* ----- Header de page avec bouton ----- */
+.et-page-header {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.et-page-header h1 {
+  margin: 0;
+}
+
+/* ----- Footer ----- */
+.et-footer {
+  background: var(--et-bg-card);
+  border-top: 1px solid var(--et-border);
+  padding: 1.25rem;
+  margin-top: auto;
+  text-align: center;
+  font-size: 0.85rem;
+  color: var(--et-text-muted);
+}
+
+/* ----- Utilitaires ----- */
+.et-text-muted {
+  color: var(--et-text-muted);
+}
+
+.et-link {
+  color: var(--et-primary);
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.et-link:hover {
+  color: var(--et-primary-dark);
+  text-decoration: underline;
+}
+
+/* Import police DM Sans */
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&display=swap');

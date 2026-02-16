@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier l'objectif{% endblock %}
+
+{% block body %}
+<h1 class="et-page-title mb-4">Modifier l'objectif</h1>
+<div class="et-card et-card-body" style="max-width: 520px;">
+    {{ form_start(form) }}
+    {{ form_row(form.typeEnergie, { attr: { class: 'et-form-control' } }) }}
+    {{ form_row(form.valeurCible, { attr: { class: 'et-form-control' } }) }}
+    {{ form_row(form.periode, { attr: { class: 'et-form-control' } }) }}
+    {{ form_row(form.dateDebut, { attr: { class: 'et-form-control' } }) }}
+    {{ form_row(form.dateFin, { attr: { class: 'et-form-control' } }) }}
+    <div class="et-form-actions mt-4">
+        <button type="submit" class="et-btn et-btn-primary">Enregistrer</button>
+        <a href="{{ path('app_objectif_index') }}" class="et-btn et-btn-secondary">Annuler</a>
+    </div>
+    {{ form_end(form) }}
+</div>
+{% endblock %}

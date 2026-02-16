@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nouvelle consommation{% endblock %}
+
+{% block body %}
+<h1 class="et-page-title mb-4">Nouvelle consommation</h1>
+<div class="et-card et-card-body" style="max-width: 520px;">
+    {{ form_start(form) }}
+    {{ form_row(form.logement, { attr: { class: 'et-form-control' } }) }}
+    {{ form_row(form.typeEnergie, { attr: { class: 'et-form-control' } }) }}
+    {{ form_row(form.periodeDebut, { attr: { class: 'et-form-control' } }) }}
+    {{ form_row(form.periodeFin, { attr: { class: 'et-form-control' } }) }}
+    {{ form_row(form.valeur, { attr: { class: 'et-form-control' } }) }}
+    {{ form_row(form.sourceSaisie, { attr: { class: 'et-form-control' } }) }}
+    <p class="et-form-hint">Le coût estimé est calculé automatiquement si un tarif unitaire est défini pour le type d'énergie.</p>
+    <div class="et-form-actions mt-4">
+        <button type="submit" class="et-btn et-btn-primary">Enregistrer</button>
+        <a href="{{ path('app_consommation_index') }}" class="et-btn et-btn-secondary">Annuler</a>
+    </div>
+    {{ form_end(form) }}
+</div>
+{% endblock %}

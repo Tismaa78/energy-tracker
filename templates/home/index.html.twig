@@ -1,0 +1,63 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Tableau de bord{% endblock %}
+
+{% block body %}
+<h1 class="et-page-title">Tableau de bord</h1>
+
+<div class="et-stats">
+    <div class="et-stat-card">
+        <div class="et-stat-label">Total du mois</div>
+        <div class="et-stat-value">{{ total_mois|number_format(0, ',', ' ') }} <small>unités</small></div>
+    </div>
+    <div class="et-stat-card">
+        <div class="et-stat-label">Objectifs atteints</div>
+        <div class="et-stat-value">{{ objectifs_atteints }}</div>
+    </div>
+    <div class="et-stat-card">
+        <div class="et-stat-label">Objectifs en cours</div>
+        <div class="et-stat-value">{{ objectifs_en_cours }}</div>
+    </div>
+    <div class="et-stat-card">
+        <div class="et-stat-label">Objectifs dépassés</div>
+        <div class="et-stat-value">{{ objectifs_depasses }}</div>
+    </div>
+</div>
+
+<div class="row g-4">
+    <div class="col-lg-6">
+        <div class="et-card">
+            <div class="et-card-header">Consommations par type (ce mois)</div>
+            <ul class="et-list-group">
+                {% for id, data in par_type %}
+                    <li class="et-list-item">
+                        <span>{{ data.type_energie }}</span>
+                        <strong>{{ data.total|number_format(0, ',', ' ') }}</strong>
+                    </li>
+                {% else %}
+                    <li class="et-list-empty">Aucune donnée ce mois.</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+    <div class="col-lg-6">
+        <div class="et-card">
+            <div class="et-card-header">Derniers objectifs</div>
+            <ul class="et-list-group">
+                {% for row in objectifs %}
+                    <li class="et-list-item">
+                        <span>{{ row.objectif.typeEnergie ? row.objectif.typeEnergie.libelle : '—' }} — {{ row.objectif.valeurCible }} ({{ row.objectif.periode }}) — consommé : {{ row.consommation_totale|number_format(0, ',', ' ') }}</span>
+                        {% if row.atteint %}
+                            <span class="et-badge et-badge-success">Atteint</span>
+                        {% else %}
+                            <span class="et-badge et-badge-warning">Dépassé</span>
+                        {% endif %}
+                    </li>
+                {% else %}
+                    <li class="et-list-empty">Aucun objectif.</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,82 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Consommations{% endblock %}
+
+{% block body %}
+<div class="et-page-header">
+    <h1 class="et-page-title">Mes consommations</h1>
+    <a href="{{ path('app_consommation_new') }}" class="et-btn et-btn-primary">Nouvelle saisie</a>
+</div>
+
+<div class="et-filters">
+    <form method="get" class="d-flex flex-wrap align-items-end gap-3 w-100">
+        <div class="et-form-group mb-0">
+            <label>Type</label>
+            <select name="type_energie" class="et-form-control" style="min-width: 140px;">
+                <option value="">—</option>
+                {% for t in types %}
+                    <option value="{{ t.id }}" {{ filters.type_energie_id == t.id ? 'selected' : '' }}>{{ t.libelle }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="et-form-group mb-0">
+            <label>Logement</label>
+            <select name="logement" class="et-form-control" style="min-width: 180px;">
+                <option value="">—</option>
+                {% for l in logements %}
+                    <option value="{{ l.id }}" {{ filters.logement_id == l.id ? 'selected' : '' }}>{{ l.adresse }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="et-form-group mb-0">
+            <label>Période début</label>
+            <input type="date" name="periode_debut" class="et-form-control" style="min-width: 140px;" value="{{ filters.periode_debut ? filters.periode_debut|date('Y-m-d') : '' }}">
+        </div>
+        <div class="et-form-group mb-0">
+            <label>Période fin</label>
+            <input type="date" name="periode_fin" class="et-form-control" style="min-width: 140px;" value="{{ filters.periode_fin ? filters.periode_fin|date('Y-m-d') : '' }}">
+        </div>
+        <button type="submit" class="et-btn et-btn-outline et-btn-sm">Filtrer</button>
+        <a href="{{ path('app_consommation_index') }}" class="et-btn et-btn-secondary et-btn-sm">Réinitialiser</a>
+    </form>
+</div>
+
+<div class="et-table-wrap">
+    <table class="et-table">
+        <thead>
+            <tr>
+                <th>Période</th>
+                <th>Logement</th>
+                <th>Type</th>
+                <th>Valeur</th>
+                <th>Coût estimé</th>
+                <th>Source</th>
+                <th style="width: 160px;">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for c in consommations %}
+                <tr>
+                    <td>{{ c.periodeDebut ? c.periodeDebut|date('d/m/Y') : '—' }} → {{ c.periodeFin ? c.periodeFin|date('d/m/Y') : '—' }}</td>
+                    <td>{{ c.logement ? c.logement.adresse : '—' }}</td>
+                    <td>{{ c.typeEnergie ? c.typeEnergie.libelle : '—' }}</td>
+                    <td>{{ c.valeur|number_format(2, ',', ' ') }} {{ c.typeEnergie ? c.typeEnergie.unite : '' }}</td>
+                    <td>{{ c.coutEstime is not null ? c.coutEstime|number_format(2, ',', ' ') ~ ' €' : '—' }}</td>
+                    <td class="et-text-muted">{{ c.sourceSaisie }}</td>
+                    <td>
+                        <div class="et-actions">
+                            <a href="{{ path('app_consommation_edit', { id: c.id }) }}" class="et-btn et-btn-outline et-btn-sm">Modifier</a>
+                            <form method="post" action="{{ path('app_consommation_delete', { id: c.id }) }}" class="d-inline" onsubmit="return confirm('Supprimer cette consommation ?');">
+                                <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ c.id) }}">
+                                <button type="submit" class="et-btn et-btn-danger et-btn-sm">Supprimer</button>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+            {% else %}
+                <tr><td colspan="7" class="et-list-empty">Aucune consommation.</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

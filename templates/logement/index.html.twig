@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mes logements{% endblock %}
+
+{% block body %}
+<div class="et-page-header">
+    <h1 class="et-page-title">Mes logements</h1>
+    <a href="{{ path('app_logement_new') }}" class="et-btn et-btn-primary">Nouveau logement</a>
+</div>
+
+<div class="et-logement-grid">
+    {% for logement in logements %}
+        <div class="et-logement-card">
+            <h3>{{ logement.adresse }}</h3>
+            <p class="et-meta">{{ logement.typeLogement == 'maison' ? 'Maison' : 'Appartement' }} — {{ logement.surfaceM2 }} m² — {{ logement.nbOccupants }} occupant(s)</p>
+            <div class="et-actions">
+                <a href="{{ path('app_logement_edit', { id: logement.id }) }}" class="et-btn et-btn-outline et-btn-sm">Modifier</a>
+                <form method="post" action="{{ path('app_logement_delete', { id: logement.id }) }}" class="d-inline" onsubmit="return confirm('Supprimer ce logement ?');">
+                    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ logement.id) }}">
+                    <button type="submit" class="et-btn et-btn-danger et-btn-sm">Supprimer</button>
+                </form>
+            </div>
+        </div>
+    {% else %}
+        <p class="et-text-muted">Aucun logement. <a href="{{ path('app_logement_new') }}" class="et-link">Ajouter un logement</a> pour enregistrer des consommations.</p>
+    {% endfor %}
+</div>
+{% endblock %}

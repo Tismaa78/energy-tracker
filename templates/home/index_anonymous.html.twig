@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Energy Tracker{% endblock %}
+
+{% block body %}
+<div class="text-center py-5 px-3">
+    <h1 class="et-page-title mb-3" style="font-size: 2rem;">Suivez votre consommation énergétique</h1>
+    <p class="et-text-muted mb-4" style="font-size: 1.1rem; max-width: 480px; margin-left: auto; margin-right: auto;">
+        Visualisez et analysez vos consommations (électricité, gaz, eau) pour mieux maîtriser votre budget et vos usages.
+    </p>
+    <div class="d-flex flex-wrap justify-content-center gap-3">
+        <a href="{{ path('app_register') }}" class="et-btn et-btn-primary">Créer un compte</a>
+        <a href="{{ path('app_login') }}" class="et-btn et-btn-outline">Se connecter</a>
+    </div>
+</div>
+{% endblock %}

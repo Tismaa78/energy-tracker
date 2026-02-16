@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mes alertes{% endblock %}
+
+{% block body %}
+<div class="et-page-header">
+    <h1 class="et-page-title">Mes alertes</h1>
+    <div class="d-flex gap-2">
+        <a href="{{ path('app_alerte_index', { non_lues: 1 }) }}" class="et-btn et-btn-sm {{ unread_only ? 'et-btn-primary' : 'et-btn-outline' }}">Non lues uniquement</a>
+        <a href="{{ path('app_alerte_index') }}" class="et-btn et-btn-sm {{ unread_only ? 'et-btn-outline' : 'et-btn-primary' }}">Toutes</a>
+    </div>
+</div>
+
+{% for alerte in alertes %}
+    <div class="et-alerte-item {{ alerte.estLue ? '' : 'unread' }}">
+        <div class="d-flex justify-content-between align-items-start flex-wrap gap-2">
+            <div>
+                <div class="et-alerte-title">
+                    {{ alerte.typeAlerte }}
+                    {% if not alerte.estLue %}
+                        <span class="et-badge et-badge-warning ms-2">Non lue</span>
+                    {% endif %}
+                </div>
+                <p class="mb-1">{{ alerte.message }}</p>
+                <div class="et-alerte-meta">
+                    {{ alerte.dateAlerte|date('d/m/Y H:i') }}
+                    {% if alerte.seuilDeclenche is not null %} — Seuil : {{ alerte.seuilDeclenche|number_format(2) }}{% endif %}
+                </div>
+            </div>
+            {% if not alerte.estLue %}
+                <form method="post" action="{{ path('app_alerte_marquer_lue', { id: alerte.id }) }}">
+                    <input type="hidden" name="_token" value="{{ csrf_token('lue' ~ alerte.id) }}">
+                    <button type="submit" class="et-btn et-btn-sm et-btn-outline">Marquer comme lue</button>
+                </form>
+            {% endif %}
+        </div>
+    </div>
+{% else %}
+    <p class="et-text-muted">Aucune alerte.</p>
+{% endfor %}
+{% endblock %}

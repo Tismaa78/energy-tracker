@@ -1,0 +1,57 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Objectifs{% endblock %}
+
+{% block body %}
+<div class="et-page-header">
+    <h1 class="et-page-title">Mes objectifs</h1>
+    <a href="{{ path('app_objectif_new') }}" class="et-btn et-btn-primary">Nouvel objectif</a>
+</div>
+
+<div class="et-table-wrap">
+    <table class="et-table">
+        <thead>
+            <tr>
+                <th>Type d'énergie</th>
+                <th>Valeur cible</th>
+                <th>Consommé (période)</th>
+                <th>Période</th>
+                <th>Date début</th>
+                <th>Date fin</th>
+                <th>Atteint</th>
+                <th style="width: 160px;">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in objectifs %}
+                <tr>
+                    <td>{{ row.objectif.typeEnergie ? row.objectif.typeEnergie.libelle : '—' }}</td>
+                    <td>{{ row.objectif.valeurCible|number_format(2, ',', ' ') }}</td>
+                    <td>{{ row.consommation_totale|number_format(2, ',', ' ') }}</td>
+                    <td>{{ row.objectif.periode }}</td>
+                    <td>{{ row.objectif.dateDebut|date('d/m/Y') }}</td>
+                    <td>{{ row.objectif.dateFin|date('d/m/Y') }}</td>
+                    <td>
+                        {% if row.atteint %}
+                            <span class="et-badge et-badge-success">Atteint</span>
+                        {% else %}
+                            <span class="et-badge et-badge-warning">Dépassé</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        <div class="et-actions">
+                            <a href="{{ path('app_objectif_edit', { id: row.objectif.id }) }}" class="et-btn et-btn-outline et-btn-sm">Modifier</a>
+                            <form method="post" action="{{ path('app_objectif_delete', { id: row.objectif.id }) }}" class="d-inline" onsubmit="return confirm('Supprimer cet objectif ?');">
+                                <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ row.objectif.id) }}">
+                                <button type="submit" class="et-btn et-btn-danger et-btn-sm">Supprimer</button>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+            {% else %}
+                <tr><td colspan="8" class="et-list-empty">Aucun objectif.</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

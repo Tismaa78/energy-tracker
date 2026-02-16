@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Inscription{% endblock %}
+
+{% block body %}
+<div class="et-form-card">
+    <h1 class="et-page-title">Inscription</h1>
+    {% if registrationForm.vars.errors|length > 0 %}
+        <div class="et-alert et-alert-danger mb-3">{{ form_errors(registrationForm) }}</div>
+    {% endif %}
+    {{ form_start(registrationForm) }}
+        <div class="et-form-group">
+            {{ form_label(registrationForm.nom) }}
+            {{ form_widget(registrationForm.nom, { attr: { class: 'et-form-control' } }) }}
+            {{ form_errors(registrationForm.nom) }}
+        </div>
+        <div class="et-form-group">
+            {{ form_label(registrationForm.prenom) }}
+            {{ form_widget(registrationForm.prenom, { attr: { class: 'et-form-control' } }) }}
+            {{ form_errors(registrationForm.prenom) }}
+        </div>
+        <div class="et-form-group">
+            {{ form_label(registrationForm.email) }}
+            {{ form_widget(registrationForm.email, { attr: { class: 'et-form-control' } }) }}
+            {{ form_errors(registrationForm.email) }}
+        </div>
+        <div class="et-form-group">
+            {{ form_label(registrationForm.plainPassword) }}
+            {{ form_widget(registrationForm.plainPassword, { attr: { class: 'et-form-control' } }) }}
+            {{ form_errors(registrationForm.plainPassword) }}
+        </div>
+        <div class="et-form-group">
+            <div class="et-form-check">
+                {{ form_widget(registrationForm.agreeTerms) }}
+                {{ form_label(registrationForm.agreeTerms) }}
+            </div>
+            {{ form_errors(registrationForm.agreeTerms) }}
+        </div>
+        <div class="et-form-actions">
+            <button type="submit" class="et-btn et-btn-primary">Créer mon compte</button>
+        </div>
+    {{ form_end(registrationForm) }}
+</div>
+{% endblock %}

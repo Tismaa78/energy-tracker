@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Connexion{% endblock %}
+
+{% block body %}
+<div class="et-form-card">
+    <h1 class="et-page-title">Connexion</h1>
+    {% if error %}
+        <div class="et-alert et-alert-danger mb-3">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+    {% endif %}
+    {% if app.user %}
+        <p class="et-text-muted mb-3">Vous êtes connecté en tant que <strong>{{ app.user.userIdentifier }}</strong>. <a href="{{ logout_path() }}" class="et-link">Déconnexion</a></p>
+    {% endif %}
+    <form method="post">
+        <div class="et-form-group">
+            <label for="inputEmail" class="et-form-label">Email</label>
+            <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="et-form-control" autocomplete="email" required autofocus>
+        </div>
+        <div class="et-form-group">
+            <label for="inputPassword" class="et-form-label">Mot de passe</label>
+            <input type="password" name="password" id="inputPassword" class="et-form-control" autocomplete="current-password" required>
+        </div>
+        <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+        <div class="et-form-check">
+            <input type="checkbox" name="_remember_me" id="remember_me">
+            <label for="remember_me">Se souvenir de moi</label>
+        </div>
+        <div class="et-form-actions">
+            <button type="submit" class="et-btn et-btn-primary">Se connecter</button>
+        </div>
+    </form>
+</div>
+{% endblock %}

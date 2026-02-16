@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Types d'énergie{% endblock %}
+
+{% block body %}
+<div class="et-page-header">
+    <h1 class="et-page-title">Types d'énergie</h1>
+    <a href="{{ path('app_type_energie_new') }}" class="et-btn et-btn-primary">Nouveau type</a>
+</div>
+
+<div class="et-table-wrap">
+    <table class="et-table">
+        <thead>
+            <tr>
+                <th>Libellé</th>
+                <th>Unité</th>
+                <th>Tarif unitaire</th>
+                <th style="width: 180px;">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for type in type_energies %}
+                <tr>
+                    <td>{{ type.libelle }}</td>
+                    <td>{{ type.unite }}</td>
+                    <td>{{ type.tarifUnitaire is not null ? type.tarifUnitaire|number_format(4, ',', ' ') : '—' }}</td>
+                    <td>
+                        <div class="et-actions">
+                            <a href="{{ path('app_type_energie_edit', { id: type.id }) }}" class="et-btn et-btn-outline et-btn-sm">Modifier</a>
+                            <form method="post" action="{{ path('app_type_energie_delete', { id: type.id }) }}" class="d-inline" onsubmit="return confirm('Supprimer ce type ?');">
+                                <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ type.id) }}">
+                                <button type="submit" class="et-btn et-btn-danger et-btn-sm">Supprimer</button>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+            {% else %}
+                <tr><td colspan="4" class="et-list-empty">Aucun type d'énergie.</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

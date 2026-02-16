@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nouveau type d'énergie{% endblock %}
+
+{% block body %}
+<h1 class="et-page-title mb-4">Nouveau type d'énergie</h1>
+<div class="et-card et-card-body" style="max-width: 480px;">
+    {{ form_start(form) }}
+    {{ form_row(form.libelle, { label: 'Libellé', attr: { class: 'et-form-control' } }) }}
+    {{ form_row(form.unite, { label: 'Unité', attr: { class: 'et-form-control' } }) }}
+    {{ form_row(form.tarifUnitaire, { label: 'Tarif unitaire', attr: { class: 'et-form-control' } }) }}
+    <div class="et-form-actions mt-4">
+        <button type="submit" class="et-btn et-btn-primary">Créer</button>
+        <a href="{{ path('app_type_energie_index') }}" class="et-btn et-btn-secondary">Annuler</a>
+    </div>
+    {{ form_end(form) }}
+</div>
+{% endblock %}

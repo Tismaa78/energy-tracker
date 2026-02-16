@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier le logement{% endblock %}
+
+{% block body %}
+<h1 class="et-page-title mb-4">Modifier le logement</h1>
+<div class="et-card et-card-body" style="max-width: 520px;">
+    {{ form_start(form) }}
+    {{ form_row(form.adresse, { attr: { class: 'et-form-control' } }) }}
+    {{ form_row(form.typeLogement, { attr: { class: 'et-form-control' } }) }}
+    {{ form_row(form.surfaceM2, { attr: { class: 'et-form-control' } }) }}
+    {{ form_row(form.nbOccupants, { attr: { class: 'et-form-control' } }) }}
+    <div class="et-form-actions mt-4">
+        <button type="submit" class="et-btn et-btn-primary">Enregistrer</button>
+        <a href="{{ path('app_logement_index') }}" class="et-btn et-btn-secondary">Annuler</a>
+    </div>
+    {{ form_end(form) }}
+</div>
+{% endblock %}
